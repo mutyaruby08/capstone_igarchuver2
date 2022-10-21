@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
+import 'package:igarchu/model/user.dart';
 import 'package:igarchu/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:igarchu/services/auth.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,9 +38,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Wrapper(),
-      debugShowCheckedModeBanner: false,
+    return StreamProvider<MyUser?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        home: Wrapper(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
