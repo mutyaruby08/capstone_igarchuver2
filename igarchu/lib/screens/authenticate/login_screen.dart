@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_const
+// ignore_for_file: unnecessary_const, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:igarchu/constants.dart';
@@ -9,7 +9,8 @@ import 'package:igarchu/widgets/underpart.dart';
 import 'package:igarchu/widgets/upside.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({required this.toggleView});
+  final Function toggleView;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -47,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text(
                             "iGarchu",
                             style: TextStyle(
+                                fontFamily: 'Poppins',
                                 color: kbutton1,
                                 fontSize: 40.0,
                                 fontWeight: FontWeight.w800),
@@ -76,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const Text(
                                   "Login",
                                   style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       color: kbutton2,
                                       fontSize: 24.0,
                                       fontWeight: FontWeight.bold),
@@ -84,7 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextField(
                                     // controller: _emailController,
                                     //change value for email
-                                    // onChanged: (value) => ,
+                                    onChanged: (value) => {
+                                      setState(() => email = value)
+                                    },
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(
@@ -101,7 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextField(
                                     // controller: _passwordController,
                                     //change value for password
-                                    // onChanged: (value) => ,
+                                     onChanged: (value) => {
+                                      setState(() => password = value)
+                                     },
+                                    obscureText: true,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(
@@ -118,25 +126,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 RoundedButton(
                                     text: 'LOGIN',
                                     press: () async {
-                                      dynamic result =
-                                          await _auth.loginWithEmailAndPword(
-                                              email, password);
-                                      if (result == null) {
-                                        setState(() {
-                                          error =
-                                              'Invalid email and password. Please try again.';
-                                        });
-                                      }
+                                      print(email);
+                                      print(password);
+                                      // dynamic result =
+                                      //     await _auth.loginWithEmailAndPword(
+                                      //         email, password);
+                                      // if (result == null) {
+                                      //   setState(() {
+                                      //     error =
+                                      //         'Invalid email and password. Please try again.';
+                                      //   });
+                                      // }
                                     }),
                                 UnderPart(
                                   title: "Don't have an account?",
                                   navigatorText: "Register here",
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RegisterScreen()));
+                                    widget.toggleView();
                                   },
                                 ),
                               ])),

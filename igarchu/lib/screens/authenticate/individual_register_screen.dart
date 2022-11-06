@@ -18,8 +18,10 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
-  String fullname= '';
+  String fname= '';
+  String lname= '';
+  String address= '';
+  String number= '';
   String email = '';
   String password = '';
   String dropdownValue = "Individual";
@@ -80,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 20,
                         ),
                         Form(
-                            key: _formKey,
+                            // key: _formKey,
                             child: Column(
                               children: <Widget>[
                                 Row(
@@ -88,21 +90,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                   TextFieldContainer(
-                                  textfieldSize: size.width * 0.8,
+                                  textfieldSize: size.width * 0.399,
                                   child: TextFormField(
                                     // controller: _nameController,
                                     onChanged: (value) => {
-                                      setState(() => fullname = value)
+                                      setState(() => fname = value)
                                     },
                                     validator: (val) =>
-                                        val!.isEmpty ? 'Enter Full Name.' : null,
+                                        val!.isEmpty ? 'Enter First Name.' : null,
                                     cursorColor: Colors.red,
                                     decoration: const InputDecoration(
                                       icon: Icon(
                                         Icons.person,
                                         color: kbutton2,
                                       ),
-                                      hintText: "Full Name",
+                                      hintText: "First Name",
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: size.width * 0.004),
+                                TextFieldContainer(
+                                  textfieldSize: size.width * 0.399,
+                                  child: TextFormField(
+                                    // controller: _nameController,
+                                    onChanged: (value) => {
+                                      setState(() => lname = value)
+                                    },
+                                    validator: (val) =>
+                                        val!.isEmpty ? 'Enter Last Name.' : null,
+                                    cursorColor: Colors.red,
+                                    decoration: const InputDecoration(
+                                      icon: Icon(
+                                        Icons.person,
+                                        color: kbutton2,
+                                      ),
+                                      hintText: "Last Name",
                                       hintStyle: TextStyle(
                                         fontFamily: 'Poppins',
                                       ),
@@ -111,6 +137,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 ],
+                                ),
+                                TextFieldContainer(
+                                  textfieldSize: size.width * 0.8,
+                                  child: TextFormField(
+                                    // controller: _mobileNumberController,
+                                    onChanged: (value) => {
+                                      setState(() => address = value)
+                                    },
+                                    validator: (val) => val!.isEmpty
+                                        ? 'Enter Address'
+                                        : null,
+                                    cursorColor: Colors.red,
+                                    decoration: const InputDecoration(
+                                      icon: Icon(
+                                        Icons.pin_drop,
+                                        color: kbutton2,
+                                      ),
+                                      hintText: "Address",
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                TextFieldContainer(
+                                  textfieldSize: size.width * 0.8,
+                                  child: TextFormField(
+                                    // controller: _mobileNumberController,
+                                    onChanged: (value) => {
+                                      setState(() => number = value)
+                                    },
+                                    validator: (val) => val!.isEmpty
+                                        ? 'Enter 11 digits number.'
+                                        : null,
+                                    cursorColor: Colors.red,
+                                    decoration: const InputDecoration(
+                                      icon: Icon(
+                                        Icons.contact_phone,
+                                        color: kbutton2,
+                                      ),
+                                      hintText: "Mobile Number",
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
                                 ),
                                 TextFieldContainer(
                                   textfieldSize: size.width * 0.8,
@@ -167,48 +241,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Select User Role:",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                        color: kbutton2,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
-                                    Container(
-                                      child: DropdownButton(
-                                        style: const TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: kbutton1,
-                                        ),
-                                        value: dropdownValue,
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            dropdownValue = value!;
-                                          });
-                                        },
-                                        items: dropdownItems.map((String item) {
-                                          return DropdownMenuItem(
-                                              child: 
-                                              Text(item), value: item);
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ]),
 
                                 RoundedButton(
                                   text: 'REGISTER',
                                   press: () {
-                                    print(fullname);
+                                    print(fname);
+                                    print(lname);
+                                    print(address);
+                                    print(number);
                                     print(email);
                                     print(password);
                                   }
@@ -216,7 +256,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 const SizedBox(
                                   height: 10,
-                                ), 
+                                ),
+                                UnderPart(
+                                    title: "REGISTER AS ANIMAL SHELTER ORGANIZATION?",
+                                    navigatorText: "Register here",
+                                    onTap: () {
+                                      // widget.toggleView();
+                                      // Navigator.of(context).pushReplacement(
+                                      //   MaterialPageRoute(
+                                      //       builder: (_) =>
+                                      //           const OrganizationScreen()),
+                                      // );
+                                    }),
+                                    const SizedBox(
+                                  height: 30,
+                                ),
                                 UnderPart(
                                     title: "Already have an account?",
                                     navigatorText: "Login here",
