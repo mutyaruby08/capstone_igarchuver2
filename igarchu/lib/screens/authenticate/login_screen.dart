@@ -18,9 +18,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
   String error = '';
+  bool _isHidden = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,81 +73,122 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                       child: Padding(
                           padding: const EdgeInsets.all(24.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: kbutton2,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: kbutton2,
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(height: 20.0),
+                                  TextFormField(
+                                      // controller: _emailController,
+                                      //change value for email
+                                      onChanged: (value) => {
+                                        setState(() => email = value)
+                                      },
+                                      validator: (val) =>
+                                        val!.isEmpty ? 'Enter an email.' : null,
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: InputDecoration(
+                                        errorStyle: const TextStyle(
+                                        fontSize: 15, 
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintText: "E-mail",
+                                          prefixIcon: const Icon(Icons.email,
+                                              color: kbutton2))),
+                                  const SizedBox(height: 20.0),
+                                  TextFormField(
+                                      // controller: _passwordController,
+                                      //change value for password
+                                       onChanged: (value) => {
+                                        setState(() => password = value)
+                                       },
+                                       validator: (val) => val!.length < 8
+                                        ? 'Enter a password atleast 8 character long.'
+                                        : null,
+                                      obscureText: _isHidden,
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: InputDecoration(
+                                        errorStyle: const TextStyle(
+                                        fontSize: 15, 
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            borderSide: BorderSide.none,
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          hintText: "Password",
+                                          prefixIcon: const Icon(Icons.lock,
+                                              color: kbutton2),
+                                          suffix: InkWell(
+                                            onTap: _togglePasswordView,
+                                            child: Icon( 
+                                              _isHidden
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            ),
+                                          ),
+                                      )),
+                                  const SizedBox(height: 10.0),
+                                  RoundedButton(
+                                      text: 'LOGIN',
+                                      press: () async {
+                                        if(_formKey.currentState!.validate()){
+                                      dynamic result = await _auth.loginWithEmailAndPword(
+                                              email, password);
+                                      if(result == null) {
+                                        setState(() {
+                                          error =
+                                              'Invalid email and password. Please try again.';
+                                        });
+                                      }
+
+
+                                    };
+                                        
+                                      }),
+                                      Text(
+                                error,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.red,
                                 ),
-                                const SizedBox(height: 20.0),
-                                TextField(
-                                    // controller: _emailController,
-                                    //change value for email
-                                    onChanged: (value) => {
-                                      setState(() => email = value)
+                              ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                  UnderPart(
+                                    title: "Don't have an account?",
+                                    navigatorText: "Register here",
+                                    onTap: () {
+                                      widget.toggleView();
                                     },
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        hintText: "E-mail",
-                                        prefixIcon: const Icon(Icons.email,
-                                            color: kbutton2))),
-                                const SizedBox(height: 20.0),
-                                TextField(
-                                    // controller: _passwordController,
-                                    //change value for password
-                                     onChanged: (value) => {
-                                      setState(() => password = value)
-                                     },
-                                    obscureText: true,
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        hintText: "Password",
-                                        prefixIcon: const Icon(Icons.key,
-                                            color: kbutton2))),
-                                const SizedBox(height: 10.0),
-                                RoundedButton(
-                                    text: 'LOGIN',
-                                    press: () async {
-                                      print(email);
-                                      print(password);
-                                      // dynamic result =
-                                      //     await _auth.loginWithEmailAndPword(
-                                      //         email, password);
-                                      // if (result == null) {
-                                      //   setState(() {
-                                      //     error =
-                                      //         'Invalid email and password. Please try again.';
-                                      //   });
-                                      // }
-                                    }),
-                                UnderPart(
-                                  title: "Don't have an account?",
-                                  navigatorText: "Register here",
-                                  onTap: () {
-                                    widget.toggleView();
-                                  },
-                                ),
-                              ])),
+                                  ),
+                                ]),
+                          )),
                     ),
                   ),
                 ],
@@ -153,5 +196,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 }

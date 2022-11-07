@@ -39,7 +39,7 @@ class AuthService {
       return null;
     }
   }
-
+// sign out
   Future signOut() async {
     try {
       return await _auth.signOut();
@@ -50,4 +50,16 @@ class AuthService {
   }
 
   // register with email & password
+  Future registerWithEmailAndPword(String email, String password) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+
+      return _userFromFirebase(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  } 
 }

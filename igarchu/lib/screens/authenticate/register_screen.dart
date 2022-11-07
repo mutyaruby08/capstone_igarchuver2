@@ -24,6 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String password = '';
   String dropdownValue = "Individual";
   var dropdownItems = ["Individual", "Animal Shelter Organization",];
+  String error = '';
+  bool _isHidden = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -51,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 50.0),
+                padding: const EdgeInsets.only(top: 50.0),
                 child: Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
@@ -98,6 +100,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         val!.isEmpty ? 'Enter Full Name.' : null,
                                     cursorColor: Colors.red,
                                     decoration: const InputDecoration(
+                                      errorStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       icon: Icon(
                                         Icons.person,
                                         color: kbutton2,
@@ -123,6 +129,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         val!.isEmpty ? 'Enter an email.' : null,
                                     cursorColor: Colors.red,
                                     decoration: const InputDecoration(
+                                      errorStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                       icon: Icon(
                                         Icons.email,
                                         color: kbutton2,
@@ -139,30 +149,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   textfieldSize: size.width * 0.8,
                                   child: TextFormField(
                                     // controller: _passwordController,
-                                    // obscureText: isHidden,
+                                    obscureText: _isHidden,
                                     onChanged: (val) {
                                       setState(() => password = val);
                                     },
-                                    validator: (val) => val!.length < 6
-                                        ? 'Enter a password atleast 6 character long.'
+                                    validator: (val) => val!.length < 8
+                                        ? 'Enter a password atleast 8 character long.'
                                         : null,
-                                    decoration: const InputDecoration(
-                                      icon: Icon(
+                                    decoration:  InputDecoration(
+                                      suffix: InkWell(
+                                          onTap: _togglePasswordView,
+                                          child: Icon( 
+                                            _isHidden
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                          ),
+                                      ),
+                                      errorStyle: const TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      
+                                      icon: const Icon(
                                         Icons.lock,
                                         color: kbutton2,
                                       ),
                                       hintText: 'Password',
-                                      hintStyle: TextStyle(
+                                      hintStyle: const TextStyle(
                                         fontFamily: 'Poppins',
                                       ),
-                                      // suffix: InkWell(
-                                      //   onTap: togglePasswordView,
-                                      //   child: Icon(
-                                      //     isHidden
-                                      //         ? Icons.visibility
-                                      //         : Icons.visibility_off,
-                                      //   ),
-                                      // ),
+                                      
                                       border: InputBorder.none,
                                     ),
                                   ),
@@ -207,13 +223,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                 RoundedButton(
                                   text: 'REGISTER',
-                                  press: () {
-                                    print(fullname);
-                                    print(email);
-                                    print(password);
+                                  press: () async {
+                                    if(_formKey.currentState!.validate()){
+                                      dynamic result = await _auth.registerWithEmailAndPword(
+                                              email, password);
+                                      if(result == null) {
+                                        setState(() {
+                                          error =
+                                              'Please provide a valid email address';
+                                        });
+                                      }
+
+
+                                    };
                                   }
                                   // => register(authService),
                                 ),
+                                Text(
+                                error,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.red,
+                                ),
+                              ),
                                 const SizedBox(
                                   height: 10,
                                 ), 
@@ -236,6 +270,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         )),
       )),
     );
-    
+  }
+    void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 }
