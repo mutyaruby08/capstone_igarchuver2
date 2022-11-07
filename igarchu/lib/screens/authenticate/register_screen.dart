@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously, sort_child_properties_last
+
 import 'package:flutter/material.dart';
 import 'package:igarchu/constants.dart';
+import 'package:igarchu/screens/authenticate/individual_register_screen.dart';
 import 'package:igarchu/screens/authenticate/login_screen.dart';
 import 'package:igarchu/screens/authenticate/organization_register_screen.dart';
 import 'package:igarchu/services/auth.dart';
@@ -19,6 +22,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  String id= '';
   String fullname= '';
   String email = '';
   String password = '';
@@ -72,9 +76,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Text('REGISTER AS INDIVIDUAL USER',
+                        const Text('Create New Account',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 25,
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black)),
@@ -101,8 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     cursorColor: Colors.red,
                                     decoration: const InputDecoration(
                                       errorStyle: TextStyle(
+                                        fontSize: 12,
                                         fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                       icon: Icon(
                                         Icons.person,
@@ -130,8 +135,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     cursorColor: Colors.red,
                                     decoration: const InputDecoration(
                                       errorStyle: TextStyle(
+                                        fontSize: 12,
                                         fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                       icon: Icon(
                                         Icons.email,
@@ -166,8 +172,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           ),
                                       ),
                                       errorStyle: const TextStyle(
+                                        fontSize: 12,
                                         fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                       
                                       icon: const Icon(
@@ -227,18 +234,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     if(_formKey.currentState!.validate()){
                                       dynamic result = await _auth.registerWithEmailAndPword(
                                               email, password);
+                                      AuthService addUser = AuthService();
                                       if(result == null) {
                                         setState(() {
                                           error =
                                               'Please provide a valid email address';
                                         });
                                       }
-
-
-                                    };
+                                      else if(result != null) {
+                                        if (dropdownValue == "Individual") {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                   IndivRegisterScreen() ));
+                                      } else if (dropdownValue == "Animal Shelter Organization") {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    OrgRegistrationScreen()));
+                                        }
+                                      if (dropdownValue == "Individual") {
+                                        addUser.addUserCollection(fullname, email,
+                                            password, dropdownValue, id);
+                                        }
+                                        else if(dropdownValue == "Animal Shelter Organization") {
+                                        addUser.addUserCollection(fullname, email,
+                                          password, dropdownValue, id);
+                                      }
+                                    }
                                   }
                                   // => register(authService),
-                                ),
+                                }),
                                 Text(
                                 error,
                                 style: const TextStyle(
