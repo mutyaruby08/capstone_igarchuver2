@@ -31,28 +31,37 @@
 
   <title>igarchu</title>
   <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  
   <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        }
-      }).then(function(engineInitializer) {
-        return engineInitializer.initializeEngine();
-      }).then(function(appRunner) {
-        return appRunner.runApp();
-      });
-    });
+    var firebaseConfig = {
+      apiKey: "AIzaSyC3btgCXS4Jq9P0LS9uwGyPq6mKJrYFrSE",
+      authDomain: "igarchu-ver2.firebaseapp.com",
+      projectId: "igarchu-ver2",
+      storageBucket: "igarchu-ver2.appspot.com",
+      messagingSenderId: "330930111207",
+      appId: "1:330930111207:android:62896c58ceb89282889842",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    // window.addEventListener('load', function(ev) {
+    //   // Download main.dart.js
+    //   _flutter.loader.loadEntrypoint({
+    //     serviceWorker: {
+    //       serviceWorkerVersion: serviceWorkerVersion,
+    //     }
+    //   }).then(function(engineInitializer) {
+    //     return engineInitializer.initializeEngine();
+    //   }).then(function(appRunner) {
+    //     return appRunner.runApp();
+    //   });
+    // });
   </script>
+
+  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
