@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String email = '';
   String password = '';
   String dropdownValue = "Individual";
-  var dropdownItems = ["Individual", "Animal Shelter Organization",];
+  var dropdownItems = ["Individual", "Animal Shelter",];
   String error = '';
   bool _isHidden = true;
   @override
