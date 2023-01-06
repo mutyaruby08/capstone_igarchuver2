@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:igarchu/services/auth.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/splash_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -41,8 +43,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<MyUser?>.value(
       value: AuthService().user,
       initialData: null,
+      // ignore: prefer_const_constructors
       child: MaterialApp(
-        home: Wrapper(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

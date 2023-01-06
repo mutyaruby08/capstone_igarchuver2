@@ -9,8 +9,8 @@ import 'package:igarchu/widgets/underpart.dart';
 import 'package:igarchu/widgets/upside.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({required this.toggleView});
-  final Function toggleView;
+  const LoginScreen({this.toggleView});
+  final Function ? toggleView;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     title: "Don't have an account?",
                                     navigatorText: "Register here",
                                     onTap: () {
-                                      widget.toggleView();
+                                      widget.toggleView!();
                                     },
                                   ),
                                 ]),
@@ -203,24 +203,3 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class Authenticate extends StatefulWidget {
-  const Authenticate({Key? key}) : super(key: key);
-
-  @override
-  State<Authenticate> createState() => _AuthenticateState();
-}
-
-class _AuthenticateState extends State<Authenticate> {
-  bool showSignIn = true;
-  void toggleView() {
-    setState(() => showSignIn = !showSignIn);
-  }
-  @override
-  Widget build(BuildContext context) {
-    if (showSignIn) {
-      return LoginScreen(toggleView: toggleView);
-    } else {
-      return RegisterScreen(toggleView: toggleView);
-    }
-  }
-}
