@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:igarchu/constants.dart';
-import 'package:igarchu/screens/authenticate/register_screen.dart';
 import 'package:igarchu/screens/home/home.dart';
 import 'package:igarchu/services/auth.dart';
 import 'package:igarchu/widgets/rounded_button.dart';
 import 'package:igarchu/widgets/textfield_container.dart';
-import 'package:igarchu/widgets/underpart.dart';
 
-import 'login_screen.dart';
 
 class OrgRegistrationScreen extends StatefulWidget {
   const OrgRegistrationScreen({Key? key}) : super(key: key);
