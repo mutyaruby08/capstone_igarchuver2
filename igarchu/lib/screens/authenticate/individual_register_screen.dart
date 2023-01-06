@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:igarchu/constants.dart';
+import 'package:igarchu/screens/Pawtest/ptest_screens.dart';
 import 'package:igarchu/screens/authenticate/login_screen.dart';
 import 'package:igarchu/screens/authenticate/organization_register_screen.dart';
 import 'package:igarchu/screens/home/home.dart';
@@ -233,7 +234,7 @@ class _IndivRegisterScreenState extends State<IndivRegisterScreen> {
                                         Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                        builder: (context) =>  HomePage()));
+                                        builder: (context) => const PawtestScreen()));
                                       }
                                     AuthService addUserInfo = AuthService();
                                     addUserInfo.addIndivField(
