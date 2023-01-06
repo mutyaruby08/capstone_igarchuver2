@@ -9,8 +9,8 @@ import 'package:igarchu/widgets/underpart.dart';
 import 'package:igarchu/widgets/upside.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({required this.toggleView});
-  final Function toggleView;
+  const LoginScreen({this.toggleView});
+  final Function ? toggleView;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -164,8 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         });
                                       }
 
-
-                                    };
+                                    }
                                         
                                       }),
                                       Text(
@@ -184,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     title: "Don't have an account?",
                                     navigatorText: "Register here",
                                     onTap: () {
-                                      widget.toggleView();
+                                      widget.toggleView!();
                                     },
                                   ),
                                 ]),
@@ -203,3 +202,4 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 }
+
